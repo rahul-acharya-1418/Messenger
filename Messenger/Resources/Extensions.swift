@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+
+// MARK: - General View used in Every UIView like imageView, scrollview, UIButton, TextField
 extension UIView {
     
     public var width: CGFloat {

@@ -20,8 +20,9 @@ class ConversationsViewController: UIViewController {
         validateAuth()
     }
     
+    
+    // MARK: - if User not exist show Login Screen Every time.
     private func validateAuth() {
-        
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let vc = LoginViewController()
             let nav = UINavigationController(rootViewController: vc)
@@ -31,4 +32,3 @@ class ConversationsViewController: UIViewController {
     }
 
 }
-

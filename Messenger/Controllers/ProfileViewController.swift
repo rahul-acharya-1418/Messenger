@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
 
 class ProfileViewController: UIViewController {
     
@@ -38,16 +39,28 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
+    /// Log Out row in table view at Profile tab bar
+    /// - Parameters:
+    ///   - tableView: Profile table view
+    ///   - indexPath: selected row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        
+        // MARK: - Simple Alert pop up UpSideDown
         let actionSheet = UIAlertController(title: "",
                                             message: "",
                                             preferredStyle: .actionSheet)
+        
+        // MARK: - LogOut button action
         actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
-            
             guard let strongSelf = self else { return }
             
+            // log out facebook
+            FBSDKLoginKit.LoginManager().logOut()
+            
+            
+            // log out firebase
             do {
                 try FirebaseAuth.Auth.auth().signOut()
                 
@@ -60,9 +73,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 print("Failed to Log Out")
             }
         }))
-        
+        // Simple cancel button
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         present(actionSheet, animated: true)
         
     }

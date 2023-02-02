@@ -2,10 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to take a profile Picture</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Plese allow access to select a photo for your profile.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb721978442843201</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.648615219899-l6rlvqjgqqof9b6mase24t338k8a6nmf</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>721978442843201</string>
+	<key>FacebookClientToken</key>
+	<string>d0f3d0e550ce12edb3fb062da5669829</string>
+	<key>FacebookDisplayName</key>
+	<string>My Messanger</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -25,25 +49,5 @@
 			</array>
 		</dict>
 	</dict>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb721978442843201</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>721978442843201</string>
-    <key>FacebookClientToken</key>
-    <string>d0f3d0e550ce12edb3fb062da5669829</string>
-    <key>FacebookDisplayName</key>
-    <string>My Messanger</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-      <string>fb-messenger-share-api</string>
-    </array>
 </dict>
 </plist>
