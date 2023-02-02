@@ -160,6 +160,7 @@ class LoginViewController: UIViewController {
         let vc = RegisterViewController()
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)
+        print("test")
     }
     
     
