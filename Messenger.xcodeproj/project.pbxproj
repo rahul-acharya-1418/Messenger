@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D9D25DE298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */; };
+		4D9D25DF298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4DB9F7A4298A395E0004E578 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A3298A395E0004E578 /* AppDelegate.swift */; };
 		4DB9F7A6298A395E0004E578 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A5298A395E0004E578 /* SceneDelegate.swift */; };
 		4DB9F7A8298A395E0004E578 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A7298A395E0004E578 /* ConversationsViewController.swift */; };
@@ -25,9 +27,25 @@
 		6F7A2A15CBADEBC7C78A9D42 /* Pods_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B01DBA8D6120B900081364 /* Pods_Messenger.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4D9D25E0298B8C1C00E97EBA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4D9D25DF298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		14B01DBA8D6120B900081364 /* Pods_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40B24D4F92EE491C239B045A /* Pods-Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger.debug.xcconfig"; path = "Target Support Files/Pods-Messenger/Pods-Messenger.debug.xcconfig"; sourceTree = "<group>"; };
+		4D9D25DC298B86C700E97EBA /* Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Messenger.entitlements; sourceTree = "<group>"; };
+		4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKCoreKit.xcframework; path = Pods/FBSDKCoreKit/XCFrameworks/FBSDKCoreKit.xcframework; sourceTree = "<group>"; };
 		4DB9F7A0298A395E0004E578 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB9F7A3298A395E0004E578 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DB9F7A5298A395E0004E578 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D9D25DE298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Frameworks */,
 				6F7A2A15CBADEBC7C78A9D42 /* Pods_Messenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +100,7 @@
 		4DB9F7A2298A395E0004E578 /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
+				4D9D25DC298B86C700E97EBA /* Messenger.entitlements */,
 				4DB9F7CC298A862B0004E578 /* GoogleService-Info.plist */,
 				4DB9F7BB298A3BAD0004E578 /* Resources */,
 				4DB9F7BA298A3B940004E578 /* ViewModels */,
@@ -160,6 +180,7 @@
 		B212111756C8FBB7CE514762 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */,
 				14B01DBA8D6120B900081364 /* Pods_Messenger.framework */,
 			);
 			name = Frameworks;
@@ -186,6 +207,7 @@
 				4DB9F79D298A395E0004E578 /* Frameworks */,
 				4DB9F79E298A395E0004E578 /* Resources */,
 				8F8971A2AFCE35F36CF41DED /* [CP] Embed Pods Frameworks */,
+				4D9D25E0298B8C1C00E97EBA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -448,6 +470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Messenger/Messenger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -477,6 +500,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Messenger/Messenger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
