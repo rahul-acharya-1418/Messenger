@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
     
     private let googleLogInButton = GIDSignInButton()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Login"
@@ -147,11 +147,11 @@ class LoginViewController: UIViewController {
                                            y: loginButton.bottom+10,
                                            width: scrollView.width-60,
                                            height: 52)
-//        facebookLoginButton.frame.origin.y = loginButton.bottom+20
+        //        facebookLoginButton.frame.origin.y = loginButton.bottom+20
         googleLogInButton.frame = CGRect(x: 30,
-                                           y: facebookLoginButton.bottom+10,
-                                           width: scrollView.width-60,
-                                           height: 52)
+                                         y: facebookLoginButton.bottom+10,
+                                         width: scrollView.width-60,
+                                         height: 52)
         
     }
     
@@ -193,7 +193,7 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
         print("test")
     }
- 
+    
 }
 
 // Text Field Delegate Extension
@@ -208,15 +208,16 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - Google Sign in 
 extension LoginViewController {
     @objc fileprivate func handleSignInWithGoogle() {
         
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-                
+        
         let config = GIDConfiguration(clientID: clientID)
-
+        
         GIDSignIn.sharedInstance.configuration = config
- 
+        
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { gidUser, error in
             if let error = error {
                 print("Sign In Error \(String(describing: error))")
@@ -226,7 +227,9 @@ extension LoginViewController {
             
             let credential = GoogleAuthProvider.credential(withIDToken: authentication, accessToken: accesstoken)
             
-            Auth.auth().signIn(with: credential) { authResult, error in
+            
+            
+            FirebaseAuth.Auth.auth().signIn(with: credential) { authResult, error in
                 guard let user = authResult?.user, error == nil else { return }
                 print("emailID: \(String(describing: user.email))")
                 print("DisplayName: \(String(describing: user.displayName))")
@@ -247,12 +250,10 @@ extension LoginViewController {
                 }
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }
-            
         }
-       
-        
     }
-
+    
+    
 }
 
 // FaceBook Login Button Extension
