@@ -7,8 +7,10 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseCore
 import FBSDKCoreKit
 import FBSDKLoginKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -78,11 +80,14 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let googleLogInButton = GIDSignInButton()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Login"
         view.backgroundColor = .white
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Register",
@@ -103,9 +108,13 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(facebookLoginButton)
+        scrollView.addSubview(googleLogInButton)
+        googleLogInButton.addTarget(self, action: #selector(handleSignInWithGoogle), for: .touchUpInside)
+        
         
         
     }
+    
     
     /// LayOut of all views in Screen
     override func viewDidLayoutSubviews() {
@@ -138,7 +147,11 @@ class LoginViewController: UIViewController {
                                            y: loginButton.bottom+10,
                                            width: scrollView.width-60,
                                            height: 52)
-        facebookLoginButton.frame.origin.y = loginButton.bottom+20
+//        facebookLoginButton.frame.origin.y = loginButton.bottom+20
+        googleLogInButton.frame = CGRect(x: 30,
+                                           y: facebookLoginButton.bottom+10,
+                                           width: scrollView.width-60,
+                                           height: 52)
         
     }
     
@@ -195,6 +208,52 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+extension LoginViewController {
+    @objc fileprivate func handleSignInWithGoogle() {
+        
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+                
+        let config = GIDConfiguration(clientID: clientID)
+
+        GIDSignIn.sharedInstance.configuration = config
+ 
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { gidUser, error in
+            if let error = error {
+                print("Sign In Error \(String(describing: error))")
+                return
+            }
+            guard let authentication = gidUser?.user.idToken?.tokenString, let accesstoken = gidUser?.user.accessToken.tokenString else { return }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: authentication, accessToken: accesstoken)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                guard let user = authResult?.user, error == nil else { return }
+                print("emailID: \(String(describing: user.email))")
+                print("DisplayName: \(String(describing: user.displayName))")
+                
+                guard let email = user.email,let userName = user.displayName else { return }
+                
+                let nameComponent = userName.components(separatedBy: " ")
+                
+                let firstName = nameComponent[0]
+                let secondName = nameComponent[1]
+                
+                DatabaseManager.shared.userExists(with: email) { exists in
+                    if !exists {
+                        DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
+                                                                            lastName: secondName,
+                                                                            emailAddress: email))
+                    }
+                }
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }
+            
+        }
+       
+        
+    }
+
+}
 
 // FaceBook Login Button Extension
 extension LoginViewController: LoginButtonDelegate {
@@ -243,9 +302,11 @@ extension LoginViewController: LoginButtonDelegate {
                                                                         lastName: secondName,
                                                                         emailAddress: email))
                 }
+                
             }
             
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            
             FirebaseAuth.Auth.auth().signIn(with: credential) { [weak self] authResult, error in
                 guard let strongSelf = self else {
                     return
@@ -257,6 +318,8 @@ extension LoginViewController: LoginButtonDelegate {
                 print("Successfully logged user in")
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
+            
+            
         }
     }
 }
