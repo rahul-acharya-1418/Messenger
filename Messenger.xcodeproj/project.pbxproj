@@ -104,12 +104,12 @@
 			children = (
 				4D9D25DC298B86C700E97EBA /* Messenger.entitlements */,
 				4DB9F7CC298A862B0004E578 /* GoogleService-Info.plist */,
+				4DB9F7B1298A39620004E578 /* Info.plist */,
 				4DB9F7BB298A3BAD0004E578 /* Resources */,
 				4DB9F7BA298A3B940004E578 /* ViewModels */,
 				4DB9F7B9298A3B840004E578 /* Models */,
 				4DB9F7B8298A3B730004E578 /* Views */,
 				4DB9F7B7298A3B600004E578 /* Controllers */,
-				4DB9F7B1298A39620004E578 /* Info.plist */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
