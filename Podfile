@@ -5,16 +5,28 @@ target 'Messenger' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-# Pods for Firebase
+# Firebase
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 
-# Pods for Facebook
+# Facebook
 pod 'FBSDKLoginKit'
 
-# Pods for Google
+# Google
 pod 'GoogleSignIn'
+
+# Mobile Database
+pod 'RealmSwift', '~> 10.33.0'
+
+# Spinner
+pod 'JGProgressHUD'
+
+# Message
+pod 'MessageKit'
+
+# Images Loading/Download
+pod 'SDWebImage'
 
     
 end
