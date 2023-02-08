@@ -16,7 +16,7 @@ import JGProgressHUD
 class LoginViewController: UIViewController {
     
     private let spinner: JGProgressHUD = {
-       let spinner = JGProgressHUD()
+        let spinner = JGProgressHUD()
         spinner.textLabel.text = "Loading"
         spinner.detailTextLabel.text = "Please Wait"
         return spinner
@@ -256,9 +256,39 @@ extension LoginViewController {
                 
                 DatabaseManager.shared.userExists(with: email) { exists in
                     if !exists {
-                        DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
-                                                                            lastName: secondName,
-                                                                            emailAddress: email))
+                        let chatUser = ChatAppUser(firstName: firstName,
+                                                   lastName: secondName,
+                                                   emailAddress: email)
+                        DatabaseManager.shared.insertUser(with: chatUser) { success in
+                            if success {
+                                // upload image
+                                
+                                
+                                if ((gidUser?.user.profile?.hasImage) != nil) {
+                                    guard let url = gidUser?.user.profile?.imageURL(withDimension: 200) else {
+                                        return
+                                    }
+                                    
+                                    URLSession.shared.dataTask(with: url) { data, _, _ in
+                                        
+                                        guard let data = data else {
+                                            return
+                                        }
+                                        let filename = chatUser.profilePictureFileName
+                                        StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
+                                            switch results {
+                                            case .success(let downloadUrl):
+                                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                                print(downloadUrl)
+                                            case .failure(let error):
+                                                print("Storage Manager Error \(error)")
+                                            }
+                                            
+                                        })
+                                    }.resume()
+                                }
+                            }
+                        }
                     }
                 }
                 self.navigationController?.dismiss(animated: true, completion: nil)
@@ -283,7 +313,8 @@ extension LoginViewController: LoginButtonDelegate {
         }
         
         let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
-                                                         parameters: ["fields": "email, name"],
+                                                         parameters: ["fields":
+                                                                        "email, first_name, last_name, picture.type(large)"],
                                                          tokenString: token,
                                                          version: nil, httpMethod: .get)
         
@@ -293,30 +324,54 @@ extension LoginViewController: LoginButtonDelegate {
                 return
             }
             print("\(safeResult)")
-            guard let userName = safeResult["name"] as? String,
-                  let email = safeResult["email"] as? String else {
+            
+            guard let firstName = safeResult["first_name"] as? String,
+                  let lastName = safeResult["last_name"] as? String,
+                  let email = safeResult["email"] as? String,
+                  let picture = safeResult["picture"] as? [String: Any],
+                  let data = picture["data"] as? [String: Any],
+                  let pictureUrl = data["url"] as? String else {
                       print("Failed to get email and name from fb results")
                       return
                   }
             
-            let nameComponent = userName.components(separatedBy: " ")
-            print("Result --> userName: \(userName)")
-            print("Result --> NameComponent: \(nameComponent)")
-            
-            guard nameComponent.count == 2 else {
-                return
-            }
-            
-            let firstName = nameComponent[0]
-            let secondName = nameComponent[1]
             
             DatabaseManager.shared.userExists(with: email) { exists in
                 if !exists {
-                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
-                                                                        lastName: secondName,
-                                                                        emailAddress: email))
+                    
+                    let chatUser = ChatAppUser(firstName: firstName,
+                                               lastName: lastName,
+                                               emailAddress: email)
+                    DatabaseManager.shared.insertUser(with: chatUser) { success in
+                        if success {
+                            
+                            guard let url = URL(string: pictureUrl) else {
+                                return
+                            }
+                            
+                            print("Downloading Data from Facebook Image")
+                            
+                            URLSession.shared.dataTask(with: url) { data, _, _ in
+                                guard let data = data else {
+                                    print("Failed to get data from facebook")
+                                    return
+                                }
+                                print("Got data from fb, uploading")
+                                // upload image
+                                let filename = chatUser.profilePictureFileName
+                                StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
+                                    switch results {
+                                    case .success(let downloadUrl):
+                                        UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                        print(downloadUrl)
+                                    case .failure(let error):
+                                        print("Storage Manager Error \(error)")
+                                    }
+                                })
+                            }.resume()
+                        }
+                    }
                 }
-                
             }
             
             let credential = FacebookAuthProvider.credential(withAccessToken: token)

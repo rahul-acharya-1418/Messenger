@@ -24,8 +24,8 @@ final class StorageManager {
     
     /// Upload Picture to firebase storage and return completion with url string to download
     /// - Parameters:
-    ///   - data: data
-    ///   - fileName: filename
+    ///   - data: image png data
+    ///   - fileName: Upload image name
     ///   - completion: Return Result with success (String) and failure(Error)
     public func uploadProfilePicture(with data: Data,
                                      fileName: String,

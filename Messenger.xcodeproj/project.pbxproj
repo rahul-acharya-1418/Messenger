@@ -47,7 +47,7 @@
 		14B01DBA8D6120B900081364 /* Pods_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40B24D4F92EE491C239B045A /* Pods-Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger.debug.xcconfig"; path = "Target Support Files/Pods-Messenger/Pods-Messenger.debug.xcconfig"; sourceTree = "<group>"; };
 		4D4FF5B1299251E400F87BF2 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		4D79929429936CDF005E31A4 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = Messenger/Controllers/StorageManager.swift; sourceTree = SOURCE_ROOT; };
+		4D79929429936CDF005E31A4 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = Messenger/Resources/StorageManager.swift; sourceTree = SOURCE_ROOT; };
 		4D9D25DC298B86C700E97EBA /* Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Messenger.entitlements; sourceTree = "<group>"; };
 		4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKCoreKit.xcframework; path = Pods/FBSDKCoreKit/XCFrameworks/FBSDKCoreKit.xcframework; sourceTree = "<group>"; };
 		4DB9F7A0298A395E0004E578 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,7 +142,6 @@
 		4DB9F7B9298A3B840004E578 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4D79929429936CDF005E31A4 /* StorageManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,6 +160,7 @@
 				4DB9F7A5298A395E0004E578 /* SceneDelegate.swift */,
 				4DB9F7CA298A47B70004E578 /* Extensions.swift */,
 				4DB9F7CE298A96AD0004E578 /* DatabaseManager.swift */,
+				4D79929429936CDF005E31A4 /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

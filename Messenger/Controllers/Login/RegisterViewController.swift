@@ -12,7 +12,7 @@ import JGProgressHUD
 class RegisterViewController: UIViewController {
     
     private let spinner: JGProgressHUD = {
-       let spinner = JGProgressHUD()
+        let spinner = JGProgressHUD()
         spinner.textLabel.text = "Loading"
         spinner.detailTextLabel.text = "Please Wait"
         return spinner
@@ -234,9 +234,31 @@ class RegisterViewController: UIViewController {
                     print("Error creating user")
                     return
                 }
-                DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: first,
-                                                                    lastName: last,
-                                                                    emailAddress: email))
+                let chatUser = ChatAppUser(firstName: first,
+                                           lastName: last,
+                                           emailAddress: email)
+                DatabaseManager.shared.insertUser(with: chatUser) { success in
+                    if success {
+                        // upload image
+                        guard let image = strongSelf.imageView.image,
+                              let data = image.pngData() else {
+                                  return
+                              }
+                        
+                        let filename = chatUser.profilePictureFileName
+                        StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
+                            switch results {
+                            case .success(let downloadUrl):
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                print(downloadUrl)
+                            case .failure(let error):
+                               print("Storage Manager Error \(error)")
+                            }
+                        })
+                        
+                    }
+                }
+                
                 // Dismiss Navigation Controller
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
@@ -246,7 +268,7 @@ class RegisterViewController: UIViewController {
     /// General Alert
     /// - Parameter message: Only for Text Field Validation
     func alertUserLoginError(message: String = "Please enter all information to Create New account.") {
-        let alert = UIAlertController(title: "Woops", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Whoops!", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
