@@ -10,7 +10,7 @@
 		4D4FF5B2299251E400F87BF2 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4FF5B1299251E400F87BF2 /* ChatViewController.swift */; };
 		4D79929529936CDF005E31A4 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79929429936CDF005E31A4 /* StorageManager.swift */; };
 		4D9D25DE298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */; };
-		4D9D25DF298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4D9D25DF298B8C1C00E97EBA /* FBSDKCoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9D25DD298B8C1C00E97EBA /* FBSDKCoreKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4DB9F7A4298A395E0004E578 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A3298A395E0004E578 /* AppDelegate.swift */; };
 		4DB9F7A6298A395E0004E578 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A5298A395E0004E578 /* SceneDelegate.swift */; };
 		4DB9F7A8298A395E0004E578 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9F7A7298A395E0004E578 /* ConversationsViewController.swift */; };

@@ -10,6 +10,8 @@ import JGProgressHUD
 
 class NewConversationViewController: UIViewController {
     
+    public var completion: (([String: String]) -> Void)?
+    
     private let searchBar: UISearchBar = {
         let search = UISearchBar()
         search.placeholder = "Search For Users..."
@@ -93,6 +95,10 @@ extension NewConversationViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // start Conversation
+        let tarGetUserData = results[indexPath.row]
+        dismiss(animated: true) { [weak self] in
+            self?.completion?(tarGetUserData)
+        } 
     }
     
     

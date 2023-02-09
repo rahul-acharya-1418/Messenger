@@ -117,6 +117,156 @@ extension DatabaseManager {
      ]
      
      */
+    
+    
+}
+
+
+
+// MARK: - Sending Messaging / Conversation
+extension DatabaseManager {
+    /*
+     
+     "dasdfa" {
+     "message": [
+     {
+     "id": String,
+     "type": text, photo, video,
+     "content": String,
+     "date": Date(),
+     "sender_email": String,
+     "isRead": true/false,
+     }
+     ]
+     }
+     
+     
+     Conversation ==> [
+     [
+     "conversation_id":
+     "other_user_email":
+     "latest_message": => {
+     "date": Date()
+     "latest_message": "message"
+     "is_read": true/false
+     }
+     ]
+     ]
+     
+     */
+    
+    /// Create new conversation with target user email and first message sent
+    /// - Parameters:
+    ///   - otherUserEmail: Receive email address
+    ///   - firstMessage: First Message
+    ///   - completion: Success check
+    public func createNewConversation(with otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
+        guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentEmail)
+        let ref = database.child(safeEmail)
+        
+        ref.observeSingleEvent(of: .value) { snapshot in
+   
+            guard var userNode = snapshot.value as? [String: Any] else {
+                completion(false)
+                print("user not found")
+                return
+            }
+            
+            let messageDate = firstMessage.sentDate
+            let dateString = ChatViewController.dateFormatter.string(from: messageDate)
+            
+            var message = ""
+            
+            switch firstMessage.kind {
+            case .text(let messageText):
+                message = messageText
+            case .attributedText(_):
+                break
+            case .photo(_):
+                break
+            case .video(_):
+                break
+            case .location(_):
+                break
+            case .emoji(_):
+                break
+            case .audio(_):
+                break
+            case .contact(_):
+                break
+            case .linkPreview(_):
+                break
+            case .custom(_):
+                break
+            }
+            
+            let newConversationData: [String : Any] = [
+                "id": "conversation_\(firstMessage.messageId)",
+                "other_user_email": otherUserEmail,
+                "latest_message": [
+                    "date": dateString,
+                    "message": message,
+                    "is_read": false
+                ]
+            ]
+            
+            
+            if var conversations = userNode["conversations"] as? [[String: Any]] {
+                // conversations array exists of current user
+                // you should append
+                conversations.append(newConversationData)
+                userNode["conversations"] = conversations
+                ref.setValue(userNode) { error, _ in
+                    guard error == nil else {
+                        completion(false)
+                        return
+                    }
+                    completion(true)
+                }
+                
+            } else {
+                // conversations array does not exists of current user
+                // Create it
+                userNode["conversations"] = [newConversationData]
+                
+                ref.setValue(userNode) { error, _ in
+                    guard error == nil else {
+                        completion(false)
+                        return
+                    }
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    /// Fetches and return all conversations for the user
+    /// - Parameters:
+    ///   - email: User Email
+    ///   - completion: success case
+    public func getAllConversation(for email: String, completion: @escaping (Result<String, Error>) -> Void){
+        
+    }
+    
+    /// Get all Messages for a given Conversation
+    /// - Parameters:
+    ///   - id: user id
+    ///   - completion: success case
+    public func getAllMessagesForConversation(with id: String, completion: @escaping (Result<String, Error>) -> Void) {
+        
+    }
+    
+    /// Send Message with target
+    /// - Parameters:
+    ///   - conversation: Conversation
+    ///   - message: Message
+    public func sendMessage(to conversation: String, message: Message, completion: @escaping (Bool) -> Void) {
+        
+    }
 }
 
 
